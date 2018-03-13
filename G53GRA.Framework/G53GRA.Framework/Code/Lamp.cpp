@@ -4,33 +4,34 @@
 #define _USE_MATH_DEFINES 
 #include <math.h>
 
-void outerCylinder(float h, float tr, float br)
+void outerCylinder(float height, float radius_top, float radius_bottom)
 {
-	float res = 0.1f * M_PI;
+	//the 'resolution' determines how many quads to draw. num quads = 2pi / resolution
+	float resolution = 0.1f * M_PI; 
 	float x, z;
-	float progress;
-	float ratio = tr / br;
+	float textureProgress;
+	float ratio = radius_top / radius_bottom;
 
 	glBegin(GL_QUAD_STRIP);
-		for (float t = 0.f; t <= 2 * M_PI; t += res)
+		for (float t = 0.f; t <= 2 * M_PI; t += resolution)
 		{
-			progress = t / (2 * M_PI);
-			x = br*cos(t);
-			z = br*sin(t);
+			textureProgress = t / (2 * M_PI);
+			x = radius_bottom*cos(t);
+			z = radius_bottom*sin(t);
 
 			glNormal3f(x, 0, z);
 
-			glTexCoord2f(progress, 0);
+			glTexCoord2f(textureProgress, 0);
 			glVertex3f(x, 0.f, z);
-			glTexCoord2f(progress, 1);
-			glVertex3f(x * ratio, h, z * ratio);
+			glTexCoord2f(textureProgress, 1);
+			glVertex3f(x * ratio, height, z * ratio);
 		}
 
 		glNormal3f(0, 0, -1);
 		glTexCoord2f(1, 0);
-		glVertex3f(br, 0.f, 0.f);
+		glVertex3f(radius_bottom, 0.f, 0.f);
 		glTexCoord2f(1, 1);
-		glVertex3f(tr, h, 0.f);
+		glVertex3f(radius_top, height, 0.f);
 	glEnd();
 }
 
@@ -63,16 +64,14 @@ void innerCylinder(float h, float tr, float br)
 	glEnd();
 }
 
-void cylinder(float h, float tr, float br, GLuint textureNum)
+void cylinder(float height, float radius_top, float radius_bottom, GLuint textureNum)
 {
-	float res = 0.1f * M_PI;
-	float x, z;           
-	float progress;
-	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, textureNum);
+	glEnable(GL_TEXTURE_2D);					//enable textures
+	glBindTexture(GL_TEXTURE_2D, textureNum);	//bind the texture, passed in from the constructor
 
-	outerCylinder(h, tr, br);
-	innerCylinder(h, tr, br);
+	//draw a cylinder on the outside and inside, so that it is visible from both inside the lampshade and from the outside
+	outerCylinder(height, radius_top, radius_bottom);
+	innerCylinder(height, radius_top, radius_bottom);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
