@@ -4,7 +4,8 @@
 class Floor : public DisplayableObject
 {
 public:
-	Floor(GLuint textureNum);
+	// the constructor takes in a texture id for displaying on the floor
+	Floor(GLuint textureNum) : textureNum(textureNum) {};
 	~Floor() {};
 	void Display();
 private:

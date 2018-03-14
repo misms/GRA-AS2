@@ -32,7 +32,7 @@ void MyScene::Initialise()
 	AddObjectToScene(wall);
 	
 		
-	//Create a red light
+	//Create a red light, using LIGHT1
 	static GLfloat lightColour1[] = { 1, 0, 0 };
 	Light* light1 = new Light(GL_LIGHT1, lightColour1);	
 	//put near the wall (so the light reflects off it
@@ -40,15 +40,17 @@ void MyScene::Initialise()
 
 	AddObjectToScene(light1);
 	
-	//Create a blue light
+	//Create a blue light, using LIGHT2
 	static GLfloat lightColour2[] = { 0, 0, 1 };
 	Light* light2 = new Light(GL_LIGHT2, lightColour2);
 	//put near the wall, 20 units to the left of the other one
 	light2->position(-10, 10, -40);
 	AddObjectToScene(light2);
 
-	//Create a lamp
-	Lamp* lamp = new Lamp(Scene::GetTexture("Textures/leather.bmp"));
+	// Create and get id for the 'leather' texture
+	int leatherTextureId = Scene::GetTexture("Textures/leather.bmp");
+	// Create a new instance of lamp, using the leather texture
+	Lamp* lamp = new Lamp(leatherTextureId);
 	//put to the right corner of the wall
 	lamp->position(30, -5, -45);
 	AddObjectToScene(lamp);

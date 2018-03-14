@@ -6,6 +6,7 @@
 
 void drawCylinder(float h, float r, int textureNum)
 {
+	//enable and bind textures
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textureNum);
 
@@ -35,9 +36,9 @@ void drawCylinder(float h, float r, int textureNum)
 
 			//outer face
 			{
-				glNormal3f(x1, 0, z1);
-				glTexCoord2f(tx1, 0);
-				glVertex3f(x1, 0.0f, z1);
+				glNormal3f(x1, 0, z1);		// normal
+				glTexCoord2f(tx1, 0);		// texture
+				glVertex3f(x1, 0.0f, z1);	// vertex
 
 				glNormal3f(x1, 0, z1);
 				glTexCoord2f(tx1, 1);
@@ -78,6 +79,7 @@ void drawCylinder(float h, float r, int textureNum)
 		} while (angle <= 2 * M_PI);
 	glEnd();
 
+	//unbind and disable textures
 	glBindTexture(GL_TEXTURE_2D, 0);
 	glDisable(GL_TEXTURE_2D);
 }
@@ -95,11 +97,11 @@ void Lamp::Display() {
 
 		// draw the 'light stand' as a cylinder, 20 units tall, 1 unit wide, from 10 units down
 		glTranslatef(0, -10, 0);
-		drawCylinder(20, 1, textureNum);
+		drawCylinder(20, 1, textureNum); // the textureNum is passed in the constructor (from MyScene.cpp)
 
 		// draw the lampshade also as a cylinder, 5 units tall, 5 units wide, from the top of the light stand
 		glTranslatef(0, 18, 0);
-		drawCylinder(5, 5, textureNum);
+		drawCylinder(5, 5, textureNum); 
 	}
 	glPopMatrix();
 

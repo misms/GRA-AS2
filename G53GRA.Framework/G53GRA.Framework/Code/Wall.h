@@ -5,7 +5,7 @@ class Wall :
 	public DisplayableObject
 {
 public:
-	Wall();
+	Wall() {};
 	~Wall() {};
 	void Display();
 };
